@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Locale;
 
 /**
  * Fake.
@@ -12,13 +13,43 @@ public class Fake
 {
 
     /**
+     * Faker.
+     */
+    private static Faker _faker = new Faker(new Locale("en"));
+
+    /**
+     * First.
+     */
+    private String first;
+
+    /**
+     * Last.
+     */
+    private String last;
+
+    /**
+     * Password.
+     */
+    private String password;
+
+    /**
+     * Constructor.
+     */
+    public Fake()
+    {
+        first    = _prepare(_faker.firstName());
+        last     = _prepare(_faker.lastName());
+        password = new BigInteger(130, new SecureRandom()).toString(32);
+    }
+
+    /**
      * First.
      *
      * @return First.
      */
-    public static String first()
+    public String first()
     {
-        return new Faker().firstName();
+        return first;
     }
 
     /**
@@ -26,19 +57,19 @@ public class Fake
      *
      * @return Last.
      */
-    public static String last()
+    public String last()
     {
-        return new Faker().lastName();
+        return last;
     }
 
     /**
-     * Both.
+     * Login.
      *
-     * @return Both.
+     * @return Login.
      */
-    public static String both()
+    public String login()
     {
-        return new Faker().name();
+        return first.toLowerCase() + '.' + last.toLowerCase();
     }
 
     /**
@@ -46,8 +77,20 @@ public class Fake
      *
      * @return Password.
      */
-    public static String password()
+    public String password()
     {
-        return new BigInteger(130, new SecureRandom()).toString(32);
+        return password;
+    }
+
+    /**
+     * Prepare.
+     *
+     * @param text Text.
+     *
+     * @return Text.
+     */
+    private String _prepare(String text)
+    {
+        return text.replace("'", "");
     }
 }
